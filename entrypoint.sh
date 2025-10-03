@@ -20,7 +20,12 @@ elif [ -n "$SSH_KEY" ]; then
     echo "$SSH_KEY" > /root/.ssh/id_rsa
     chmod 600 /root/.ssh/id_rsa
     exec autossh -M 0 -N -D 0.0.0.0:$LOCAL_PORT $SSH_OPTS -i /root/.ssh/id_rsa $USER@$REMOTE_HOST -p $REMOTE_PORT
+elif [ -f "/root/.ssh/id_rsa" ]; then
+    echo "with id_rsa"
+    chmod 600 /root/.ssh/id_rsa
+    exec autossh -M 0 -N -D 0.0.0.0:$LOCAL_PORT $SSH_OPTS -i /root/.ssh/id_rsa $USER@$REMOTE_HOST -p $REMOTE_PORT
+
 else
-    echo "Must set PASSWORD or SSH_KEY"
+    echo "Must set PASSWORD, SSH_KEY or id_rsa"
     exit 1
 fi
